@@ -10,10 +10,10 @@ import MySQLdb as mdb
 import MySQLdb.cursors
 
 
-search_conn = mdb.connect('127.0.0.1', 'root', '', '', port=9306, charset='utf8', cursorclass=MySQLdb.cursors.DictCursor)
-search_conn.ping(True)
-re_punctuations = re.compile(
-    ur"。|，|,|！|…|!|《|》|<|>|\"|'|:|：|？|\?|、|\||“|”|‘|’|；|\\|—|_|=|（|）|·|\(|\)|　|\.|【|】|『|』|@|&|%|\^|\*|\+|\||<|>|~|`|\[|\]")
+# search_conn = mdb.connect('127.0.0.1', 'root', '', '', port=9306, charset='utf8', cursorclass=MySQLdb.cursors.DictCursor)
+# search_conn.ping(True)
+# re_punctuations = re.compile(
+#     r'。|，|,|！|…|!|《|》|<|>|\"|'|:|：|？|\?|、|\||“|”|‘|’|；|\\|—|_|=|（|）|·|\(|\)|　|\.|【|】|『|』|@|&|%|\^|\*|\+|\||<|>|~|`|\[|')
 
 
 def escape_string(string):
@@ -42,7 +42,7 @@ class HashManager(models.Manager):
             values.append(escape_string(keyword))
         if category:
             conds.append('category=%s')
-            values.append(binascii.crc32(category)&0xFFFFFFFFL)
+            values.append(binascii.crc32(category))
         if conds:
             sql += ' WHERE ' + ' AND '.join(conds)
         if sort == 'create_time':
